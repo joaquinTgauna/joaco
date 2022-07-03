@@ -1,15 +1,18 @@
-//alert()
-/*
-1- variables
-2- mostrar datos
-*/
+let entrada = prompt('Ingrese su texto ("salir" para finalizar)')
 
-
-let puntaje = "100";
-
-
-if(puntaje == "100")[
-console.log ("ganaste")
-]
-
-console.log ("sigo sumando puntos")
+while (entrada != "salir") {
+    switch (entrada) {
+        case ("hola"):
+            console.log("Hola como estas")
+            break;
+        case ("chau"):
+            console.log("Chau,hasta luego")
+            break;
+        default:
+            console.log("No entiendo")
+            break;
+    }
+    entrada = prompt('Ingrese su texto ("salir" para finalizar)')
+    
+}
+console.log ("Gracias,vuelvas prontos")
