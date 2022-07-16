@@ -22,46 +22,67 @@ console.log ("Gracias,vuelvas prontos")
 
 //segunda entrega
 
-let teclado = 600;
-let mouse = 300;
-let monitor = 1000;
+let precios = {
+    teclado: 600,
+    mouse: 300,
+    monitor: 1000,
+    combo: (600 + 300 + 1000) 
+}
+let productos = {
+    teclado: "teclado",
+    mouse: "mouse",
+    monitor: "monitor",
+    combo: "combo"
+
+}
+
+
+let listachango = [];
 let chango = 0;
 let valorCuota = 0;
 let cuotas = 0;
-let combo = (monitor + teclado + mouse) / 2
 
-let productos = prompt('ingrese su producto ("continuar" para confirmar el medio de pago)')
 
-while (productos != "continuar") {
-    switch (productos) {
+let productoingresado = prompt('ingrese su producto ("continuar" para confirmar el medio de pago)')
+
+while (productoingresado != "continuar") {
+    switch (productoingresado) {
         case ("teclado"):
-            chango = chango + teclado
+            chango = chango + precios.teclado
+            listachango.push(productos.teclado + "= $" + precios.teclado);
             break;
         case ("mouse"):
-            chango = chango + mouse
+            chango = chango + precios.mouse
+            listachango.push(productos.mouse + "= $" + precios.mouse);
             break;
 
         case ("monitor"):
-            chango = chango + monitor
+            chango = chango + precios.monitor
+            listachango.push(productos.monitor + "= $" + precios.monitor);
             break;
 
         case ("combo"):
-            chango = chango + combo
+            chango = chango + precios.combo
+            listachango.push(productos.combo + "= $" + precios.combo);
             break;
 
         case ("Teclado"):
-            chango = chango + teclado
+            chango = chango + precios.teclado
+            listachango.push(productos.teclado + "= $" + precios.teclado);
             break;
         case ("Mouse"):
-            chango = chango + mouse
+            chango = chango + precios.mouse
+            listachango.push(productos.mouse + "= $" + precios.mouse);
             break;
 
         case ("Monitor"):
-            chango = chango + monitor
+            chango = chango + precios.monitor
+            listachango.push(productos.monitor + "= $" + precios.monitor);
             break;
 
         case ("Combo"):
-            chango = chango + combo
+            chango = chango + precios.combo
+            listachango.push(productos.combo + "= $" + precios.combo);
             break;
 
         default:
@@ -69,7 +90,7 @@ while (productos != "continuar") {
             break;
     }
 
-    productos = prompt('Ingrese su texto ("continuar" para confirmar el medio de pago)')
+    productoingresado = prompt('Ingrese su texto ("continuar" para confirmar el medio de pago)')
 
 }
 medioDePago = prompt('ingrese efectivo o tarjeta para continuar,para finalizar su compra escriba "finalizar"')
@@ -100,7 +121,7 @@ while (medioDePago != "finalizar") {
 }
 alert("Gracias por su compra")
 
-alert("total de la compra $" + chango)
+alert("total de la compra $" + chango + ".\n Los productos que estas llevando son:\n" + listachango)
 
 if (cuotas != 0) {
     alert("vas a pagar " + cuotas + " cuotas de $" + valorCuota)
@@ -114,3 +135,4 @@ function calcularCuotas(chango, cuotas) {
     return chango / cuotas
 
 }
+
