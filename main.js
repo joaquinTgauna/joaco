@@ -56,17 +56,6 @@ let valorCuota = 0;
 let cuotas = 0;
 
 let productoingresado;
-mostrarProductos(precios)
-
-
-
-setTimeout(()=>{
-    agregarProductos();
-    sumaDePreciosChango(precioschango);
-    realizarPago();
-    finalizarCompra();
-}, 500)
-
 
 
 
@@ -188,3 +177,22 @@ function finalizarCompra() {
     }
 
 }
+
+let boton = document.getElementById("btnAceptar");
+boton.addEventListener("click", respuestaClick);
+
+function respuestaClick() {
+    console.log("respuesta al aceptas");
+    empezar();
+    mostrarProductos(precios)
+}
+function empezar() {
+    setTimeout(() => {
+        agregarProductos();
+        sumaDePreciosChango(precioschango);
+        realizarPago();
+        finalizarCompra();
+    }, 500)
+
+}
+
