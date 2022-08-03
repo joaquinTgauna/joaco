@@ -25,42 +25,51 @@ console.log ("Gracias,vuelvas prontos")
 
 
 
-function mostrarProductos(precios) {
-    document.getElementById("teclado").innerHTML = "Teclado $ " + precios.teclado
-    document.getElementById("mouse").innerHTML = "mouse $ " + precios.mouse
-    document.getElementById("monitor").innerHTML = "monitor $ " + precios.monitor
-    document.getElementById("combo").innerHTML = "combo $ " + precios.combo
+function mostrarProductos(mapaDeProductos) {
+    document.getElementById("teclado").innerHTML = "Teclado $ " + mapaDeProductos.teclado.precio
+    document.getElementById("mouse").innerHTML = "mouse $ " + mapaDeProductos.mouse.precio
+    document.getElementById("monitor").innerHTML = "monitor $ " + mapaDeProductos.monitor.precio
+    document.getElementById("combo").innerHTML = "combo $ " + mapaDeProductos.combo.precio
 }
 
+let mapaDeProductos = {
+    teclado: {
+        precio: 600,
+        modelo: "red dragon"
+    },
+    mouse: {
+        precio: 300,
+        modelo: "logitech"
+    },
+    monitor: {
+        precio: 1000,
+        modelo: "samsung"
 
-let precios = {
-    teclado: 600,
-    mouse: 300,
-    monitor: 1000,
-    combo: 1900
-}
-let productos = {
-    teclado: "teclado",
-    mouse: "mouse",
-    monitor: "monitor",
-    combo: "combo"
+    },
+    combo: {
+        precio: 1900,
+        componentes: "Teclado, Mouse, Monitor"
+    }
+
 
 }
 
 
 let precioschango = [];
-let total = 0;
+let precioFinalDeLaCompra = 0;
 let listachango = [];
-let chango = 0;
+let total = 0;
 let valorCuota = 0;
 let cuotas = 0;
 
 let productoingresado;
 
+mostrarProductos(mapaDeProductos)
+sumaDePreciosChango(precioschango);
 
 
-function calcularCuotas(chango, cuotas) {
-    return chango / cuotas
+function calcularCuotas(total, cuotas) {
+    return total / cuotas
 
 }
 
@@ -70,66 +79,7 @@ function sumaDePreciosChango(precioschango) {
         sumasChango += numero
 
     });
-    return total = sumasChango
-}
-
-function agregarProductos() {
-    productoingresado = prompt('ingrese su producto ("continuar" para confirmar el medio de pago)')
-    while (productoingresado != "continuar") {
-        switch (productoingresado) {
-            case ("teclado"):
-                chango = chango + precios.teclado
-                listachango.push(productos.teclado + "= $" + precios.teclado);
-                precioschango.push(precios.teclado);
-                break;
-            case ("mouse"):
-                chango = chango + precios.mouse
-                listachango.push(productos.mouse + "= $" + precios.mouse);
-                precioschango.push(precios.mouse);
-                break;
-
-            case ("monitor"):
-                chango = chango + precios.monitor
-                listachango.push(productos.monitor + "= $" + precios.monitor);
-                precioschango.push(precios.monitor);
-                break;
-
-            case ("combo"):
-                chango = chango + precios.combo
-                listachango.push(productos.combo + "= $" + precios.combo);
-                precioschango.push(precios.combo);
-                break;
-
-            case ("Teclado"):
-                chango = chango + precios.teclado
-                listachango.push(productos.teclado + "= $" + precios.teclado);
-                break;
-            case ("Mouse"):
-                chango = chango + precios.mouse
-                listachango.push(productos.mouse + "= $" + precios.mouse);
-                precioschango.push(precios.mouse);
-                break;
-
-            case ("Monitor"):
-                chango = chango + precios.monitor
-                listachango.push(productos.monitor + "= $" + precios.monitor);
-                precioschango.push(precios.monitor);
-                break;
-
-            case ("Combo"):
-                chango = chango + precios.combo
-                listachango.push(productos.combo + "= $" + precios.combo);
-                precioschango.push(precios.combo);
-                break;
-
-            default:
-                alert("No hay stock en este momento")
-                break;
-        }
-
-        productoingresado = prompt('Ingrese su texto ("continuar" para confirmar el medio de pago)')
-
-    }
+    return precioFinalDeLaCompra = sumasChango
 }
 
 function realizarPago() {
@@ -139,13 +89,13 @@ function realizarPago() {
         switch (medioDePago) {
 
             case ("efectivo"):
-                chango = chango / 2
+                total = total / 2
                 break;
 
             case ("tarjeta"):
                 cuotas = prompt("indique cantida de cuotas")
-                valorCuota = calcularCuotas(chango, cuotas)
-                console.log(valorCuota + "resultado de las cuotas")
+                valorCuota = calcularCuotas(total, cuotas)
+                console.log(valorCuota + " resultado de las cuotas")
                 break;
 
 
@@ -168,7 +118,7 @@ function finalizarCompra() {
 
     alert("Gracias por su compra")
 
-    alert("total de la compra $" + total + ".\n Los productos que estas llevando son:\n" + listachango)
+    alert("total de la compra $" + precioFinalDeLaCompra + ".\n Los productos que estas llevando son:\n" + listachango)
 
     if (cuotas != 0) {
         alert("vas a pagar " + cuotas + " cuotas de $" + valorCuota)
@@ -176,23 +126,85 @@ function finalizarCompra() {
         sumaDePreciosChango(precioschango)
     }
 
+        borrarCarro()
 }
 
-let boton = document.getElementById("btnAceptar");
-boton.addEventListener("click", respuestaClick);
 
-function respuestaClick() {
-    console.log("respuesta al aceptas");
-    empezar();
-    mostrarProductos(precios)
+let botonTeclado = document.getElementById("btnAgregarTeclado");
+botonTeclado.addEventListener("click", agregarTecladoAlCarrito);
+
+let botonMouse = document.getElementById("btnAgregarMouse");
+botonMouse.addEventListener("click", agregarMouseAlCarrito);
+
+let botonMonitor = document.getElementById("btnAgregarMonitor");
+botonMonitor.addEventListener("click", agregarMonitorAlCarrito);
+
+let botonCombo = document.getElementById("btnAgregarCombo");
+botonCombo.addEventListener("click", agregarComboAlCarrito);
+
+let botonContinuar = document.getElementById("btnContinuar");
+botonContinuar.addEventListener("click", continuar);
+
+
+
+function agregarTecladoAlCarrito() {
+    total = total + mapaDeProductos.teclado.precio
+    listachango.push(mapaDeProductos.teclado.modelo + "= $" + mapaDeProductos.teclado.precio);
+    precioschango.push(mapaDeProductos.teclado.precio);
+    actulizacionDelStorage();
 }
-function empezar() {
-    setTimeout(() => {
-        agregarProductos();
-        sumaDePreciosChango(precioschango);
-        realizarPago();
-        finalizarCompra();
-    }, 500)
+
+function agregarMouseAlCarrito() {
+    total = total + mapaDeProductos.mouse.precio
+    listachango.push(mapaDeProductos.mouse.modelo + "= $" + mapaDeProductos.mouse.precio);
+    precioschango.push(mapaDeProductos.mouse.precio);
+    actulizacionDelStorage();
+}
+
+function agregarMonitorAlCarrito() {
+    total = total + mapaDeProductos.monitor.precio
+    listachango.push(mapaDeProductos.monitor.modelo + "= $" + mapaDeProductos.monitor.precio);
+    precioschango.push(mapaDeProductos.monitor.precio);
+    actulizacionDelStorage();
+}
+
+function agregarComboAlCarrito() {
+    total = total + mapaDeProductos.combo.precio
+    listachango.push(mapaDeProductos.combo.modelo + "= $" + mapaDeProductos.combo.precio);
+    precioschango.push(mapaDeProductos.combo.precio);
+    actulizacionDelStorage();
+}
+
+function continuar() {
+    realizarPago();
+    sumaDePreciosChango(precioschango);
+    finalizarCompra();
+}
+
+
+function actulizacionDelStorage() {
+    localStorage.setItem("precioschango", JSON.stringify(precioschango));
+    localStorage.setItem("total", total)
+    localStorage.setItem("listachango", JSON.stringify(listachango));
 
 }
 
+
+if (localStorage.getItem("listachango")) {
+    listachango = JSON.parse(localStorage.getItem("listachango"));
+}
+
+
+if (localStorage.getItem("precioschango")) {
+    precioschango = JSON.parse(localStorage.getItem("precioschango"));
+}
+
+if(localStorage.getItem("total")){
+    total = JSON.parse(localStorage.getItem("total"))
+}
+
+function borrarCarro(){
+    localStorage.clear("total")
+    total = 0
+
+}
