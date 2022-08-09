@@ -35,37 +35,36 @@ function mostrarProductos(mapaDeProductos) {
 let mapaDeProductos = {
     teclado: {
         precio: 600,
-        modelo: "red dragon"
+        modelo: " Teclado red dragon"
     },
     mouse: {
         precio: 300,
-        modelo: "logitech"
+        modelo: " Mouse logitech"
     },
     monitor: {
         precio: 1000,
-        modelo: "samsung"
+        modelo: " Monitor samsung"
 
     },
     combo: {
         precio: 1900,
-        componentes: "Teclado, Mouse, Monitor"
+        modelo: " Teclado, Mouse, Monitor"
     }
 
 
 }
 
 
-let precioschango = [];
 let precioFinalDeLaCompra = 0;
-let listachango = [];
-let total = 0;
+let total = localStorage.getItem("total") ? JSON.parse(localStorage.getItem("total")) : 0;
 let valorCuota = 0;
 let cuotas = 0;
+let carritoDeCompras = localStorage.getItem("carritoDeCompras") ? JSON.parse(localStorage.getItem("caritoDeCompras")) : [];
 
 let productoingresado;
 
 mostrarProductos(mapaDeProductos)
-sumaDePreciosChango(precioschango);
+sumaDePreciosChango(carritoDeCompras);
 
 
 function calcularCuotas(total, cuotas) {
@@ -73,40 +72,39 @@ function calcularCuotas(total, cuotas) {
 
 }
 
-function sumaDePreciosChango(precioschango) {
+function sumaDePreciosChango(carritoDeCompras) {
     let sumasChango = 0;
-    precioschango.forEach((numero) => {
-        sumasChango += numero
+    carritoDeCompras.forEach(({precio}) => {
+        sumasChango += precio
 
     });
     return precioFinalDeLaCompra = sumasChango
 }
 
 function realizarPago() {
-    medioDePago = prompt('ingrese efectivo o tarjeta para continuar,para finalizar su compra escriba "finalizar"')
 
-    while (medioDePago != "finalizar") {
-        switch (medioDePago) {
+    let inputmedioDePago = document.getElementById("medioDePago")
 
-            case ("efectivo"):
-                total = total / 2
-                break;
+    let medioDePagoElegido = inputmedioDePago.options[inputmedioDePago.selectedIndex].value
+    console.log(medioDePagoElegido)
 
-            case ("tarjeta"):
-                cuotas = prompt("indique cantida de cuotas")
-                valorCuota = calcularCuotas(total, cuotas)
-                console.log(valorCuota + " resultado de las cuotas")
-                break;
+    switch (medioDePagoElegido) {
+
+        case ("efectivo"):
+            total = total / 2
+            break;
+
+        case ("tarjeta"):
+            let inputCuotas = document.getElementById("cuotas")
+
+            cuotas = inputCuotas.options[inputCuotas.selectedIndex].value
+
+            console.log(cuotas)
+            valorCuota = calcularCuotas(...[total, cuotas])
+            console.log(valorCuota + " resultado de las cuotas")
+            break;
 
 
-            default:
-                alert("medio de pago incorrecto")
-                break;
-
-
-        }
-
-        medioDePago = prompt('ingrese Efectivo o Tarjeta,para finalizar su compra escriba "finalizar"')
 
     }
 
@@ -116,17 +114,21 @@ function realizarPago() {
 
 function finalizarCompra() {
 
-    alert("Gracias por su compra")
+    let finalizarCompra = document.getElementById("finalizarCompra")
+    finalizarCompra.innerText = "total de la compra $" + precioFinalDeLaCompra + ".\n Los productos que estas llevando son:\n"
+    carritoDeCompras.forEach(({modelo,}) => {
+        finalizarCompra.innerText = finalizarCompra.innerText + modelo + ","
 
-    alert("total de la compra $" + precioFinalDeLaCompra + ".\n Los productos que estas llevando son:\n" + listachango)
+    })
 
     if (cuotas != 0) {
-        alert("vas a pagar " + cuotas + " cuotas de $" + valorCuota)
+        let cuotasAPagar = document.getElementById("cuotasAPagar")
+        cuotasAPagar.innerText = "vas a pagar " + cuotas + " cuotas de $" + valorCuota
 
-        sumaDePreciosChango(precioschango)
+        sumaDePreciosChango(carritoDeCompras)
     }
 
-        borrarCarro()
+    borrarCarro()
 }
 
 
@@ -149,61 +151,43 @@ botonContinuar.addEventListener("click", continuar);
 
 function agregarTecladoAlCarrito() {
     total = total + mapaDeProductos.teclado.precio
-    listachango.push(mapaDeProductos.teclado.modelo + "= $" + mapaDeProductos.teclado.precio);
-    precioschango.push(mapaDeProductos.teclado.precio);
+    carritoDeCompras.push(mapaDeProductos.teclado)
+    carritoDeCompras = [...carritoDeCompras,mapaDeProductos.teclado]
     actulizacionDelStorage();
 }
 
 function agregarMouseAlCarrito() {
     total = total + mapaDeProductos.mouse.precio
-    listachango.push(mapaDeProductos.mouse.modelo + "= $" + mapaDeProductos.mouse.precio);
-    precioschango.push(mapaDeProductos.mouse.precio);
+    carritoDeCompras.push(mapaDeProductos.mouse)
     actulizacionDelStorage();
 }
 
 function agregarMonitorAlCarrito() {
     total = total + mapaDeProductos.monitor.precio
-    listachango.push(mapaDeProductos.monitor.modelo + "= $" + mapaDeProductos.monitor.precio);
-    precioschango.push(mapaDeProductos.monitor.precio);
+    carritoDeCompras.push(mapaDeProductos.monitor)
     actulizacionDelStorage();
 }
 
 function agregarComboAlCarrito() {
     total = total + mapaDeProductos.combo.precio
-    listachango.push(mapaDeProductos.combo.modelo + "= $" + mapaDeProductos.combo.precio);
-    precioschango.push(mapaDeProductos.combo.precio);
+    carritoDeCompras.push(mapaDeProductos.combo)
     actulizacionDelStorage();
 }
 
 function continuar() {
     realizarPago();
-    sumaDePreciosChango(precioschango);
+    sumaDePreciosChango(carritoDeCompras);
     finalizarCompra();
 }
 
 
 function actulizacionDelStorage() {
-    localStorage.setItem("precioschango", JSON.stringify(precioschango));
+    localStorage.setItem("caritoDeCompras", JSON.stringify(carritoDeCompras));
     localStorage.setItem("total", total)
-    localStorage.setItem("listachango", JSON.stringify(listachango));
 
 }
 
-
-if (localStorage.getItem("listachango")) {
-    listachango = JSON.parse(localStorage.getItem("listachango"));
-}
-
-
-if (localStorage.getItem("precioschango")) {
-    precioschango = JSON.parse(localStorage.getItem("precioschango"));
-}
-
-if(localStorage.getItem("total")){
-    total = JSON.parse(localStorage.getItem("total"))
-}
-
-function borrarCarro(){
+function borrarCarro() {
     localStorage.clear("total")
     total = 0
 
