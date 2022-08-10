@@ -1,29 +1,3 @@
-//primer entraga
-/*
-let entrada = prompt('Ingrese su texto ("salir" para finalizar)')
-
-while (entrada != "salir") {
-    switch (entrada) {
-        case ("hola"):
-            console.log("Hola como estas")
-            break;
-        case ("chau"):
-            console.log("Chau,hasta luego")
-            break;
-        default:
-            console.log("No entiendo")
-            break;
-    }
-    entrada = prompt('Ingrese su texto ("salir" para finalizar)')
-    
-}
-console.log ("Gracias,vuelvas prontos")
-*/
-
-//entregas varias
-
-
-
 
 function mostrarProductos(mapaDeProductos) {
     document.getElementById("teclado").innerHTML = "Teclado $ " + mapaDeProductos.teclado.precio
@@ -47,7 +21,7 @@ let mapaDeProductos = {
 
     },
     combo: {
-        precio: 1900,
+        precio: 1700,
         modelo: " Teclado, Mouse, Monitor"
     }
 
@@ -55,11 +29,11 @@ let mapaDeProductos = {
 }
 
 
-let precioFinalDeLaCompra = 0;
+
 let total = localStorage.getItem("total") ? JSON.parse(localStorage.getItem("total")) : 0;
 let valorCuota = 0;
 let cuotas = 0;
-let carritoDeCompras = localStorage.getItem("carritoDeCompras") ? JSON.parse(localStorage.getItem("caritoDeCompras")) : [];
+let carritoDeCompras = localStorage.getItem("carritoDeCompras") ? JSON.parse(localStorage.getItem("carritoDeCompras")) : [];
 
 let productoingresado;
 
@@ -78,7 +52,7 @@ function sumaDePreciosChango(carritoDeCompras) {
         sumasChango += precio
 
     });
-    return precioFinalDeLaCompra = sumasChango
+    return total = sumasChango
 }
 
 function realizarPago() {
@@ -90,11 +64,12 @@ function realizarPago() {
 
     switch (medioDePagoElegido) {
 
-        case ("efectivo"):
+        case ("debito"):
             total = total / 2
+        
             break;
 
-        case ("tarjeta"):
+        case ("credito"):
             let inputCuotas = document.getElementById("cuotas")
 
             cuotas = inputCuotas.options[inputCuotas.selectedIndex].value
@@ -115,7 +90,7 @@ function realizarPago() {
 function finalizarCompra() {
 
     let finalizarCompra = document.getElementById("finalizarCompra")
-    finalizarCompra.innerText = "total de la compra $" + precioFinalDeLaCompra + ".\n Los productos que estas llevando son:\n"
+    finalizarCompra.innerText = "total de la compra $" + total + ".\n Los productos que estas llevando son:\n"
     carritoDeCompras.forEach(({modelo,}) => {
         finalizarCompra.innerText = finalizarCompra.innerText + modelo + ","
 
@@ -133,45 +108,26 @@ function finalizarCompra() {
 
 
 let botonTeclado = document.getElementById("btnAgregarTeclado");
-botonTeclado.addEventListener("click", agregarTecladoAlCarrito);
+botonTeclado.addEventListener("click", function(){agregarProductoAlCarrito(mapaDeProductos.teclado)});
 
 let botonMouse = document.getElementById("btnAgregarMouse");
-botonMouse.addEventListener("click", agregarMouseAlCarrito);
+botonMouse.addEventListener("click", function(){agregarProductoAlCarrito(mapaDeProductos.mouse)});
 
 let botonMonitor = document.getElementById("btnAgregarMonitor");
-botonMonitor.addEventListener("click", agregarMonitorAlCarrito);
+botonMonitor.addEventListener("click", function(){agregarProductoAlCarrito(mapaDeProductos.monitor)} );
 
 let botonCombo = document.getElementById("btnAgregarCombo");
-botonCombo.addEventListener("click", agregarComboAlCarrito);
+botonCombo.addEventListener("click", function (){agregarProductoAlCarrito(mapaDeProductos.combo)});
 
 let botonContinuar = document.getElementById("btnContinuar");
 botonContinuar.addEventListener("click", continuar);
 
-
-
-function agregarTecladoAlCarrito() {
-    total = total + mapaDeProductos.teclado.precio
-    carritoDeCompras.push(mapaDeProductos.teclado)
-    carritoDeCompras = [...carritoDeCompras,mapaDeProductos.teclado]
+function agregarProductoAlCarrito(producto){
+    total = total + producto.precio
+    carritoDeCompras.push(producto)
     actulizacionDelStorage();
-}
+    mostrarToast(producto.modelo)
 
-function agregarMouseAlCarrito() {
-    total = total + mapaDeProductos.mouse.precio
-    carritoDeCompras.push(mapaDeProductos.mouse)
-    actulizacionDelStorage();
-}
-
-function agregarMonitorAlCarrito() {
-    total = total + mapaDeProductos.monitor.precio
-    carritoDeCompras.push(mapaDeProductos.monitor)
-    actulizacionDelStorage();
-}
-
-function agregarComboAlCarrito() {
-    total = total + mapaDeProductos.combo.precio
-    carritoDeCompras.push(mapaDeProductos.combo)
-    actulizacionDelStorage();
 }
 
 function continuar() {
@@ -182,7 +138,7 @@ function continuar() {
 
 
 function actulizacionDelStorage() {
-    localStorage.setItem("caritoDeCompras", JSON.stringify(carritoDeCompras));
+    localStorage.setItem("carritoDeCompras", JSON.stringify(carritoDeCompras));
     localStorage.setItem("total", total)
 
 }
@@ -190,5 +146,19 @@ function actulizacionDelStorage() {
 function borrarCarro() {
     localStorage.clear("total")
     total = 0
+    carritoDeCompras = []
+}
+
+function mostrarToast(nombreDelProducto){
+    Toastify({
+        text: "Se añadio al carrito" + nombreDelProducto,
+        duration: 3000,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true, 
+        
+      }).showToast();
+
 
 }
