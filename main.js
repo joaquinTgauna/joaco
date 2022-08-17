@@ -6,27 +6,15 @@ function mostrarProductos(mapaDeProductos) {
     document.getElementById("combo").innerHTML = "combo $ " + mapaDeProductos.combo.precio
 }
 
-let mapaDeProductos = {
-    teclado: {
-        precio: 600,
-        modelo: " Teclado red dragon"
-    },
-    mouse: {
-        precio: 300,
-        modelo: " Mouse logitech"
-    },
-    monitor: {
-        precio: 1000,
-        modelo: " Monitor samsung"
 
-    },
-    combo: {
-        precio: 1700,
-        modelo: " Teclado, Mouse, Monitor"
-    }
+let mapaDeProductos;
 
+fetch('productos.json')
+.then(response =>response.json() )
+.then(productos =>{
+    mapaDeProductos = productos
+    mostrarProductos(productos)})
 
-}
 
 
 
@@ -37,7 +25,7 @@ let carritoDeCompras = localStorage.getItem("carritoDeCompras") ? JSON.parse(loc
 
 let productoingresado;
 
-mostrarProductos(mapaDeProductos)
+
 sumaDePreciosChango(carritoDeCompras);
 
 
@@ -162,3 +150,5 @@ function mostrarToast(nombreDelProducto){
 
 
 }
+
+

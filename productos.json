@@ -1,0 +1,21 @@
+{
+    "teclado": {
+        "precio": 600,
+        "modelo": " Teclado red dragon"
+    },
+    "mouse": {
+        "precio": 300,
+        "modelo": " Mouse logitech"
+    },
+    "monitor": {
+        "precio": 1000,
+        "modelo": " Monitor samsung"
+
+    },
+    "combo": {
+        "precio": 1700,
+        "modelo": " Teclado, Mouse, Monitor"
+    }
+
+
+}
