@@ -1,154 +1,144 @@
+let total = localStorage.getItem("total") ? JSON.parse(localStorage.getItem("total")) : 0;
+let paymentValue = 0;
+let dues = 0;
+let shoppingCart = localStorage.getItem("shoppingCart") ? JSON.parse(localStorage.getItem("shoppingCart")) : [];
+let enteredProduct;
 
-function mostrarProductos(mapaDeProductos) {
-    document.getElementById("teclado").innerHTML = "Teclado $ " + mapaDeProductos.teclado.precio
-    document.getElementById("mouse").innerHTML = "mouse $ " + mapaDeProductos.mouse.precio
-    document.getElementById("monitor").innerHTML = "monitor $ " + mapaDeProductos.monitor.precio
-    document.getElementById("combo").innerHTML = "combo $ " + mapaDeProductos.combo.precio
-}
-
-
-let mapaDeProductos;
 
 fetch('productos.json')
-.then(response =>response.json() )
-.then(productos =>{
-    mapaDeProductos = productos
-    mostrarProductos(productos)})
+    .then(response => response.json())
+    .then(product => {
+
+        showproducts(product.product_list)
+    })
+
+additionOfPricesCart(shoppingCart);
 
 
+function showproducts(products) {
+    products.forEach((product) => {
+        document.getElementById(product.id).innerHTML = product.name + " $ " + product.price
+        let newButton = document.getElementById("btnAdd" + product.id);
+        newButton.addEventListener("click", function () { addProductsToCart(product) });
+    });
+}
 
-
-let total = localStorage.getItem("total") ? JSON.parse(localStorage.getItem("total")) : 0;
-let valorCuota = 0;
-let cuotas = 0;
-let carritoDeCompras = localStorage.getItem("carritoDeCompras") ? JSON.parse(localStorage.getItem("carritoDeCompras")) : [];
-
-let productoingresado;
-
-
-sumaDePreciosChango(carritoDeCompras);
-
-
-function calcularCuotas(total, cuotas) {
-    return total / cuotas
+function calculatedues(total, dues) {
+    return total / dues
 
 }
 
-function sumaDePreciosChango(carritoDeCompras) {
-    let sumasChango = 0;
-    carritoDeCompras.forEach(({precio}) => {
-        sumasChango += precio
+function additionOfPricesCart(shoppingCart) {
+    let additionCart = 0;
+    shoppingCart.forEach(({ price }) => {
+        additionCart += price
 
     });
-    return total = sumasChango
+    return total = additionCart
 }
 
-function realizarPago() {
+function makePayment() {
 
-    let inputmedioDePago = document.getElementById("medioDePago")
+    let inputMeansOfPayment = document.getElementById("paymentMethod")
 
-    let medioDePagoElegido = inputmedioDePago.options[inputmedioDePago.selectedIndex].value
-    console.log(medioDePagoElegido)
+    let chosenMethodOfPayment = inputMeansOfPayment.options[inputMeansOfPayment.selectedIndex].value
+    console.log(chosenMethodOfPayment)
 
-    switch (medioDePagoElegido) {
+    switch (chosenMethodOfPayment) {
 
-        case ("debito"):
+        case ("debit"):
             total = total / 2
-        
+
             break;
 
-        case ("credito"):
-            let inputCuotas = document.getElementById("cuotas")
+        case ("credit"):
+            let inputDues = document.getElementById("dues")
 
-            cuotas = inputCuotas.options[inputCuotas.selectedIndex].value
+            dues = inputDues.options[inputDues.selectedIndex].value
 
-            console.log(cuotas)
-            valorCuota = calcularCuotas(...[total, cuotas])
-            console.log(valorCuota + " resultado de las cuotas")
+            console.log(dues)
+            paymentValue = calculatedues(...[total, dues])
+            console.log(paymentValue + " resultado de las cuotas")
             break;
-
-
 
     }
 
-
-
 }
 
-function finalizarCompra() {
+function checkout() {
 
-    let finalizarCompra = document.getElementById("finalizarCompra")
-    finalizarCompra.innerText = "total de la compra $" + total + ".\n Los productos que estas llevando son:\n"
-    carritoDeCompras.forEach(({modelo,}) => {
-        finalizarCompra.innerText = finalizarCompra.innerText + modelo + ","
+    let checkout = document.getElementById("checkout")
+    checkout.innerText = "total de la compra $" + total + ".\n Los productos que estas llevando son:\n"
+    shoppingCart.forEach(({ model }) => {
+        checkout.innerText = checkout.innerText + model + ","
 
     })
 
-    if (cuotas != 0) {
-        let cuotasAPagar = document.getElementById("cuotasAPagar")
-        cuotasAPagar.innerText = "vas a pagar " + cuotas + " cuotas de $" + valorCuota
+    if (dues != 0) {
+        let duesPay = document.getElementById("duesPay")
+        duesPay.innerText = "vas a pagar " + dues + " cuotas de $" + paymentValue
 
-        sumaDePreciosChango(carritoDeCompras)
+        additionOfPricesCart(shoppingCart)
     }
 
-    borrarCarro()
+    deleteCart()
+    finishToast()
 }
 
 
-let botonTeclado = document.getElementById("btnAgregarTeclado");
-botonTeclado.addEventListener("click", function(){agregarProductoAlCarrito(mapaDeProductos.teclado)});
 
-let botonMouse = document.getElementById("btnAgregarMouse");
-botonMouse.addEventListener("click", function(){agregarProductoAlCarrito(mapaDeProductos.mouse)});
-
-let botonMonitor = document.getElementById("btnAgregarMonitor");
-botonMonitor.addEventListener("click", function(){agregarProductoAlCarrito(mapaDeProductos.monitor)} );
-
-let botonCombo = document.getElementById("btnAgregarCombo");
-botonCombo.addEventListener("click", function (){agregarProductoAlCarrito(mapaDeProductos.combo)});
-
-let botonContinuar = document.getElementById("btnContinuar");
-botonContinuar.addEventListener("click", continuar);
-
-function agregarProductoAlCarrito(producto){
-    total = total + producto.precio
-    carritoDeCompras.push(producto)
-    actulizacionDelStorage();
-    mostrarToast(producto.modelo)
+function addProductsToCart(product) {
+    total = total + product.price
+    shoppingCart.push(product)
+    updateStorage();
+    showToast(product.model)
 
 }
 
-function continuar() {
-    realizarPago();
-    sumaDePreciosChango(carritoDeCompras);
-    finalizarCompra();
+function Next() {
+    makePayment();
+    additionOfPricesCart(shoppingCart);
+    checkout();
 }
 
 
-function actulizacionDelStorage() {
-    localStorage.setItem("carritoDeCompras", JSON.stringify(carritoDeCompras));
+function updateStorage() {
+    localStorage.setItem("carritoDeCompras", JSON.stringify(shoppingCart));
     localStorage.setItem("total", total)
 
 }
 
-function borrarCarro() {
+function deleteCart() {
     localStorage.clear("total")
     total = 0
-    carritoDeCompras = []
+    shoppingCart = []
 }
 
-function mostrarToast(nombreDelProducto){
+function showToast(productName) {
     Toastify({
-        text: "Se añadio al carrito" + nombreDelProducto,
+        text: "Se añadio al carrito" + productName,
         duration: 3000,
         close: true,
-        gravity: "top", 
-        position: "right", 
-        stopOnFocus: true, 
-        
-      }).showToast();
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
 
+    }).showToast();
 
 }
 
+function finishToast() {
+    Toastify({
+        text: "Gracias por su compra",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
 
+    }).showToast();
+
+}
+
+let newButton = document.getElementById("btnNext");
+newButton.addEventListener("click", function () { Next() }); 

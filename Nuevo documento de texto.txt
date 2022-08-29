@@ -1,0 +1,6 @@
+function mostrarProductos(productMap) {
+    document.getElementById("keyboard").innerHTML = "keyboard $ " + productMap.keyboard.precio
+    document.getElementById("mouse").innerHTML = "mouse $ " + productMap.mouse.precio
+    document.getElementById("display").innerHTML = "monitor $ " + productMap.monitor.precio
+    document.getElementById("combo").innerHTML = "combo $ " + productMap.combo.precio
+}

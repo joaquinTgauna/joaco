@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
@@ -9,53 +10,49 @@
 <body>
 
     <div>
-        <p id="teclado"></p>
-        <button id="btnAgregarTeclado">Añadir al carrito</button>
-        <p id="mouse"></p>
-        <button id="btnAgregarMouse">Añadir al carrito</button>
-        <p id="monitor"></p>
-        <button id="btnAgregarMonitor">Añadir al carrito</button>
-        <p id="combo"></p>
-        <button id="btnAgregarCombo">Añadir al carrito</button>
-        <br/>    
-        
-        <br/>
+        <p id="Keyboard"></p>
+        <button id="btnAddKeyboard">Añadir al carrito</button>
+        <p id="Mouse"></p>
+        <button id="btnAddMouse">Añadir al carrito</button>
+        <p id="Display"></p>
+        <button id="btnAddDisplay">Añadir al carrito</button>
+        <p id="Combo"></p>
+        <button id="btnAddCombo">Añadir al carrito</button>
+        <br />
+
+        <br />
     </div>
 
-   <div>
-<label >Seleccionar medio de pago:</label>
-<select name="medioDePago" id="medioDePago">
-<option value="debito">debito</option>
-<option value="credito">credito</option>
-</select>
-<br><br>
-<label >Cantidad de cuotas</label>
-<select name="cuotas" id="cuotas">
-<option value="3">3</option>
-<option value="6">6</option>
-</select>
+    <div>
+        <label>Seleccionar medio de pago:</label>
+        <select name="paymentMethod" id="paymentMethod">
+            <option value="debit">debit</option>
+            <option value="credit">credit</option>
+        </select>
+        <br>
+        <br>
+        <label>Cantidad de cuotas</label>
+        <select name="dues" id="dues">
+            <option value="3">3</option>
+            <option value="6">6</option>
+        </select>
 
-</div>
-   <div>
-    <button id="btnContinuar">Continuar</button>
-<br/>
-</div>
+    </div>
+    <div>
+        <button id="btnNext">continuar</button>
+        <br />
+    </div>
 
     <div>
 
-<p id = "finalizarCompra"></p>
-<p id = "cuotasAPagar"></p>
-
-<p>"Gracias por su compra"</p>
+        <p id="checkout"></p>
+        <p id="duesPay"></p>
 
 
     </div>
 
-
-
-
-<script src="main.js"> </script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="main.js"> </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 
 
@@ -65,5 +62,3 @@
 
 
 </html>
-
-

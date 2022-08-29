@@ -1,21 +1,28 @@
 {
-    "teclado": {
-        "precio": 600,
-        "modelo": " Teclado red dragon"
-    },
-    "mouse": {
-        "precio": 300,
-        "modelo": " Mouse logitech"
-    },
-    "monitor": {
-        "precio": 1000,
-        "modelo": " Monitor samsung"
-
-    },
-    "combo": {
-        "precio": 1700,
-        "modelo": " Teclado, Mouse, Monitor"
-    }
-
-
+    "product_list": [
+        {
+            "id": "Keyboard",
+            "name": "Teclado",
+            "price": 600,
+            "model": "Teclado red dragon"
+        },
+        {
+            "id": "Mouse",
+            "name": "Mouse",
+            "price": 300,
+            "model": "Mouse logitech"
+        },
+        {
+            "id": "Display",
+            "name": "Monitor",
+            "price": 1000,
+            "model": "Monitor samsung"
+        },
+        {
+            "id": "Combo",
+            "name": "Combo",
+            "price": 1700,
+            "model": "Teclado, Mouse, Monitor"
+        }
+    ]
 }
