@@ -4,7 +4,6 @@ let dues = 0;
 let shoppingCart = localStorage.getItem("shoppingCart") ? JSON.parse(localStorage.getItem("shoppingCart")) : [];
 let enteredProduct;
 
-
 fetch('productos.json')
     .then(response => response.json())
     .then(product => {
@@ -22,6 +21,7 @@ function showproducts(products) {
         newButton.addEventListener("click", function () { addProductsToCart(product) });
     });
 }
+
 
 function calculatedues(total, dues) {
     return total / dues
@@ -95,7 +95,7 @@ function addProductsToCart(product) {
 
 }
 
-function Next() {
+function onNextClicked() {
     makePayment();
     additionOfPricesCart(shoppingCart);
     checkout();
@@ -140,5 +140,5 @@ function finishToast() {
 
 }
 
-let newButton = document.getElementById("btnNext");
-newButton.addEventListener("click", function () { Next() }); 
+let btnNext = document.getElementById("btnNext");
+btnNext.addEventListener("click", function () { onNextClicked() }); 
