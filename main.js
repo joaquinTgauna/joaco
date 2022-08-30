@@ -13,7 +13,6 @@ fetch('productos.json')
 
 additionOfPricesCart(shoppingCart);
 
-
 function showproducts(products) {
     products.forEach((product) => {
         document.getElementById(product.id).innerHTML = product.name + " $ " + product.price
@@ -21,7 +20,6 @@ function showproducts(products) {
         newButton.addEventListener("click", function () { addProductsToCart(product) });
     });
 }
-
 
 function calculatedues(total, dues) {
     return total / dues
@@ -42,12 +40,11 @@ function makePayment() {
     let inputMeansOfPayment = document.getElementById("paymentMethod")
 
     let chosenMethodOfPayment = inputMeansOfPayment.options[inputMeansOfPayment.selectedIndex].value
-    console.log(chosenMethodOfPayment)
-
+    
     switch (chosenMethodOfPayment) {
 
         case ("debit"):
-            total = total / 2
+            total = total 
 
             break;
 
@@ -56,9 +53,8 @@ function makePayment() {
 
             dues = inputDues.options[inputDues.selectedIndex].value
 
-            console.log(dues)
             paymentValue = calculatedues(...[total, dues])
-            console.log(paymentValue + " resultado de las cuotas")
+
             break;
 
     }
@@ -84,8 +80,6 @@ function checkout() {
     deleteCart()
     finishToast()
 }
-
-
 
 function addProductsToCart(product) {
     total = total + product.price
