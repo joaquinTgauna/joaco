@@ -14,11 +14,28 @@ fetch('productos.json')
 additionOfPricesCart(shoppingCart);
 
 function showproducts(products) {
+
+    let divProductList = document.getElementById("product_list")
+
     products.forEach((product) => {
-        document.getElementById(product.id).innerHTML = product.name + " $ " + product.price
-        let newButton = document.getElementById("btnAdd" + product.id);
-        newButton.addEventListener("click", function () { addProductsToCart(product) });
+        let textProductName = document.createTextNode(product.name + " $ " + product.price);
+
+        let btnAddProduct = document.createElement("button");
+        btnAddProduct.innerText = "Añadir Producto"
+        
+        btnAddProduct.addEventListener("click", function () { addProductsToCart(product) });
+
+        divProductList.appendChild(textProductName)
+
+        divProductList.appendChild(document.createElement("br"))
+
+        divProductList.appendChild(btnAddProduct)
+
+        divProductList.appendChild(document.createElement("br"))
+
+        divProductList.appendChild(document.createElement("br"))
     });
+
 }
 
 function calculatedues(total, dues) {
@@ -40,11 +57,11 @@ function makePayment() {
     let inputMeansOfPayment = document.getElementById("paymentMethod")
 
     let chosenMethodOfPayment = inputMeansOfPayment.options[inputMeansOfPayment.selectedIndex].value
-    
+
     switch (chosenMethodOfPayment) {
 
         case ("debit"):
-            total = total 
+            total = total
 
             break;
 

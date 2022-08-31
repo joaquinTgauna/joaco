@@ -23,6 +23,12 @@
             "name": "Combo",
             "price": 1700,
             "model": "Teclado, Mouse, Monitor"
+        },
+        {
+            "id": "Webcam",
+            "name": "Webcam",
+            "price": 800,
+            "model": "logitech"
         }
     ]
 }
