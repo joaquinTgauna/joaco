@@ -8,12 +8,12 @@ fetch('productos.json')
     .then(response => response.json())
     .then(product => {
 
-        showproducts(product.product_list)
+        showProducts(product.product_list)
     })
 
 additionOfPricesCart(shoppingCart);
 
-function showproducts(products) {
+function showProducts(products) {
 
     let divProductList = document.getElementById("product_list")
 
@@ -22,17 +22,13 @@ function showproducts(products) {
 
         let btnAddProduct = document.createElement("button");
         btnAddProduct.innerText = "Añadir Producto"
-        
+
         btnAddProduct.addEventListener("click", function () { addProductsToCart(product) });
 
         divProductList.appendChild(textProductName)
-
         divProductList.appendChild(document.createElement("br"))
-
         divProductList.appendChild(btnAddProduct)
-
         divProductList.appendChild(document.createElement("br"))
-
         divProductList.appendChild(document.createElement("br"))
     });
 
